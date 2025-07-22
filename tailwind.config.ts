@@ -14,14 +14,21 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "surface": {
-          "secondary": "#EEEEEE"
+        surface: {
+          secondary: "#EEEEEE",
         },
-        "header-title": "#585660"
+        "header-title": "#585660",
+        gray: {
+          medium: "#3B3B3B",
+        },
       },
       screens: {
-        'mobile': '375px',
-        'desktop': '1536px',
+        mobile: "375px",
+        desktop: "1536px",
+      },
+      fontSize: {
+        "xl": "24px",
+        "2xl": "36px",
       },
     },
   },

@@ -28,9 +28,6 @@ export interface ApiResponse<T> {
   availableFilters: string[];
   currentPage: number;
   totalPages: number;
-  // data: T
-  // success: boolean
-  // message?: string
 }
 
 export interface ApiError {

@@ -1,10 +1,9 @@
 "use client";
 
-import { FC } from "react";
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect, useCallback, FC } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Game, ApiParams } from "../../types/game";
-import { getGames, getAvailableGenres } from "../../lib/api";
+import { getGames } from "../../lib/api";
 import GameCard from "../GameCard/GameCard";
 import Loading from "../Loading/Loading";
 import { gameGridClasses } from "./classes";
@@ -15,10 +14,7 @@ const GameGrid: FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedGenre, setSelectedGenre] = useState<string>("");
 
-  const router = useRouter();
   const searchParams = useSearchParams();
-
-  const availableGenres = useMemo(() => getAvailableGenres(), []);
 
   const fetchGames = useCallback(async (params: ApiParams) => {
     try {
@@ -48,22 +44,6 @@ const GameGrid: FC = () => {
     });
   }, [searchParams, fetchGames]);
 
-  const handleGenreChange = useCallback(
-    (genre: string) => {
-      setSelectedGenre(genre);
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (genre) {
-        params.set("genre", genre);
-      } else {
-        params.delete("genre");
-      }
-
-      router.push(`/?${params.toString()}`);
-    },
-    [router, searchParams]
-  );
-
   if (loading) {
     return <Loading size="lg" text="Loading games..." />;
   }
@@ -84,25 +64,6 @@ const GameGrid: FC = () => {
 
   return (
     <>
-      <div className={gameGridClasses.filterContainer}>
-        <label htmlFor="genre-select" className={gameGridClasses.filterLabel}>
-          Filter by Genre:
-        </label>
-        <select
-          id="genre-select"
-          value={selectedGenre}
-          onChange={(e) => handleGenreChange(e.target.value)}
-          className={gameGridClasses.filterSelect}
-        >
-          <option value="">All Genres</option>
-          {availableGenres.map((genre) => (
-            <option key={genre} value={genre}>
-              {genre}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <div className={gameGridClasses.container}>
         {games.length &&
           games.map((game) => <GameCard key={game.id} game={game} />)}

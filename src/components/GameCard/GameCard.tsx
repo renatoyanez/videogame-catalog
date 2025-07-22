@@ -14,7 +14,7 @@ interface GameCardProps {
 
 const GameCard: React.FC<GameCardProps> = ({ game }) => {
   const { addToCart, removeFromCart, state } = useCart();
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  // const [showFullDescription, setShowFullDescription] = useState(false);
 
   const isInCart = state.items.some((item: any) => item.id === game.id);
 
@@ -29,16 +29,18 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
     }
   };
 
-  const toggleDescription = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setShowFullDescription(!showFullDescription);
-  };
+  // const toggleDescription = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   setShowFullDescription(!showFullDescription);
+  // };
 
-  const truncatedDescription =
-    game.description.length > 100
-      ? game.description.substring(0, 100) + "..."
-      : game.description;
+  const truncatedText = (text: string) => {
+
+  return text.length > 100
+    ? text.substring(0, 100) + "..."
+    : text;
+  }
 
   return (
     <div className="block group">
@@ -69,7 +71,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
           {/* Title and Price Row */}
           <div className="flex justify-between items-start mb-5">
             <h3 className="text-base font-medium text-gray-900 flex-1 pr-2">
-              {game.name}
+              {truncatedText(game.name)}
             </h3>
             <span className="text-base font-semibold text-gray-900 whitespace-nowrap">
               {game.price === 0 ? "Free" : `$${Math.round(game.price)}`}

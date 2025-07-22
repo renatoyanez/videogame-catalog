@@ -1,6 +1,6 @@
 export const headerClasses = {
   container: "bg-surface-secondary sticky top-0 z-50",
-  title: "text-[24px] font-bold text-header-title",
+  title: "text-header-title",
   content: "flex justify-between items-center h-16",
   cartButton: "relative p-2 text-gray-400 hover:text-gray-500 transition-colors",
   cartBadge:

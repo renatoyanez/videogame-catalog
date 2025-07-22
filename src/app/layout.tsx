@@ -23,7 +23,7 @@ export default function RootLayout({
         <CartProvider>
           <div className="min-h-screen flex flex-col">
             <Header />
-            <Layout className="flex-1">{children}</Layout>
+            <Layout>{children}</Layout>
           </div>
         </CartProvider>
       </body>

@@ -4,13 +4,18 @@ import { ReactNode, FC } from "react";
 import { layoutClasses } from "./classes";
 
 interface LayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
+  type?: "page" | "header";
   className?: string;
 }
 
-const Layout: FC<LayoutProps> = ({ children, className = "" }) => {
+const Layout: FC<LayoutProps> = ({
+  children,
+  type = "page",
+  className = "",
+}) => {
   return (
-    <main className={`${layoutClasses.wrapper} ${className}`}>{children}</main>
+    <div className={`max-w-7xl ${layoutClasses.container[type]} ${className}`}>{children}</div>
   );
 };
 
