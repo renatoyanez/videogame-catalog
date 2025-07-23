@@ -1,6 +1,5 @@
 import type React from "react";
 import type { Metadata } from "next";
-import Layout from "@/components/Layout/Layout";
 
 export const metadata: Metadata = {
   title: "Your Cart - GamerShop",

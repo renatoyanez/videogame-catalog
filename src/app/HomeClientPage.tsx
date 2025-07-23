@@ -5,32 +5,33 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Select from "@/components/Select/Select";
 import Typography from "@/components/Typography/Typography";
 import { getAvailableGenres } from "../lib/api";
+import { useFetchGames } from "@/hooks/useFetchGames";
 
 const HomeClientPage = () => {
-  const [selectedGenre, setSelectedGenre] = useState<string>("");
+    const {
+    games,
+    loading,
+    loadingMore,
+    error,
+    selectedGenre,
+    availableFilters,
+    hasMorePages,
+    isEmpty,
+    changeGenre,
+    loadMoreGames,
+    refetch,
+  } = useFetchGames();
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const availableGenres = useMemo(() => getAvailableGenres(), []);
 
-  const handleGenreChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const genre = e.target.value;
-      setSelectedGenre(genre);
+  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const genre = e.target.value
+    changeGenre(genre)
+  }
 
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (genre) {
-        params.set("genre", genre);
-      } else {
-        params.delete("genre");
-      }
-
-      router.push(`/?${params.toString()}`);
-    },
-    [router, searchParams]
-  );
   
   return (
     <>
@@ -39,14 +40,12 @@ const HomeClientPage = () => {
           Top Sellers
         </Typography>
       </div>
-      <div className="desktop:mb-12 mobile:mb-8 flex justify-end">
-        <section>
+      <div className="desktop:pb-12 mobile:pb-8 flex justify-end border-b border-gray-200 last:border-b-0">
           <Select
             value={selectedGenre}
             onChange={handleGenreChange}
             options={availableGenres}
           />
-        </section>
       </div>
     </>
   );

@@ -2,3 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* make the footer sticks to bottom */
+html,
+body {
+  height: 100%;
+}
+
+#__next {
+  height: 100%;
+}
