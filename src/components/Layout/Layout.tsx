@@ -1,21 +1,31 @@
 "use client";
 
 import { ReactNode, FC } from "react";
+import Link from "next/link";
 import { layoutClasses } from "./classes";
 
 interface LayoutProps {
   children?: ReactNode;
   type?: "page" | "header";
   className?: string;
+  backButton?: ReactNode;
 }
 
 const Layout: FC<LayoutProps> = ({
   children,
   type = "page",
   className = "",
+  backButton = undefined,
 }) => {
   return (
-    <div className={`max-w-7xl ${layoutClasses.container[type]} ${className}`}>{children}</div>
+    <>
+      {backButton && backButton}
+      <div
+        className={`max-w-7xl ${layoutClasses.container[type]} ${className}`}
+      >
+        {children}
+      </div>
+    </>
   );
 };
 

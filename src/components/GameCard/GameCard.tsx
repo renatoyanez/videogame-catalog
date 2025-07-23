@@ -29,16 +29,10 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
     }
   };
 
-  // const toggleDescription = (e: React.MouseEvent) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   setShowFullDescription(!showFullDescription);
-  // };
-
   const truncatedText = (text: string) => {
 
-  return text.length > 100
-    ? text.substring(0, 100) + "..."
+  return text.length > 30
+    ? text.substring(0, 30) + "..."
     : text;
   }
 

@@ -1,7 +1,7 @@
 export const orderSummaryClasses = {
   container: "bg-gray-50 rounded-lg p-6 sticky top-24",
   title: "text-lg font-semibold text-gray-900 mb-4",
-  itemsList: "space-y-2 mb-4 max-h-40 overflow-y-auto",
+  itemsList: "space-y-2 mb-4 overflow-y-auto",
   row: "flex justify-between items-center py-2",
   label: "text-gray-600 text-sm",
   value: "text-gray-900 font-medium text-sm",

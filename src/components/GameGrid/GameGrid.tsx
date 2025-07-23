@@ -1,82 +1,56 @@
 "use client";
 
-import { useState, useEffect, useCallback, FC } from "react";
+import type React from "react";
+import { useCallback, useMemo, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import type { Game, ApiParams } from "../../types/game";
-import { getGames } from "../../lib/api";
-import GameCard from "../GameCard/GameCard";
-import Loading from "../Loading/Loading";
-import { gameGridClasses } from "./classes";
+import GameCard from "@/components/GameCard/GameCard";
+import Loading from "@/components/Loading/Loading";
+import Button from "@/components/Button/Button";
+import { useFetchGames } from "@/hooks/useFetchGames";
 
-const GameGrid: FC = () => {
-  const [games, setGames] = useState<Game[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedGenre, setSelectedGenre] = useState<string>("");
+const GameGrid: React.FC = () => {
+  const {
+    currentPage,
+    games,
+    loading,
+    error,
+    selectedGenre,
+    availableFilters,
+    changeGenre,
+    refetch,
+    isEmpty,
+    hasMorePages,
+    loadingMore,
+    totalPages,
+    loadMoreGames,
+  } = useFetchGames();
 
-  const searchParams = useSearchParams();
-
-  const fetchGames = useCallback(async (params: ApiParams) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const gamesData = await getGames(params);
-      setGames(gamesData.games);
-    } catch (err) {
-      setError("Failed to load games. Please try again.");
-      console.error("Error fetching games:", err);
-    } finally {
-      setLoading(false);
+  const handleLoadMore = useCallback(async () => {
+    if (currentPage < totalPages && !loadingMore) {
+      await loadMoreGames();
     }
-  }, []);
-
-  useEffect(() => {
-    const genre = searchParams.get("genre");
-    const page = searchParams.get("page");
-
-    if (genre) {
-      setSelectedGenre(genre);
-    }
-
-    fetchGames({
-      genre: genre || undefined,
-      page: page ? Number.parseInt(page) : undefined,
-    });
-  }, [searchParams, fetchGames]);
-
-  if (loading) {
-    return <Loading size="lg" text="Loading games..." />;
-  }
-
-  if (error) {
-    return (
-      <div className={gameGridClasses.error}>
-        <p className={gameGridClasses.errorText}>{error}</p>
-        <button
-          onClick={() => fetchGames({ genre: selectedGenre, page: 1 })}
-          className={gameGridClasses.retryButton}
-        >
-          Try Again
-        </button>
-      </div>
-    );
-  }
-
+  }, [currentPage, totalPages, loadingMore, loadMoreGames]);
   return (
-    <>
-      <div className={gameGridClasses.container}>
-        {games.length &&
-          games.map((game) => <GameCard key={game.id} game={game} />)}
+    <div className="desktop:my-[48px] mobile:my-[32px]">
+      <div className="flex flex-wrap justify-between gap-y-6">
+        {games.map((game) => (
+          <GameCard key={game.id} game={game} />
+        ))}
       </div>
 
-      {games.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500">
-            No games found for the selected genre.
-          </p>
+      {/* See More Button */}
+      {hasMorePages && games.length > 0 && (
+        <div className="flex mt-8">
+          <Button
+            onClick={handleLoadMore}
+            loading={loadingMore}
+            className="text-white font-medium"
+          >
+            {loadingMore ? "Loading..." : "SEE MORE"}
+          </Button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

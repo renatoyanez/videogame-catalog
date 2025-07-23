@@ -25,7 +25,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       "inline-flex items-center justify-center font-medium rounded-md transition-all focus-ring";
 
     const variantClasses = {
-      primary: "bg-gray-800 text-white hover:bg-gray-700 disabled:bg-gray-400",
+      primary: "bg-[#585660] text-white disabled:bg-gray-400",
       secondary:
         "bg-gray-100 text-gray-900 hover:bg-gray-200 disabled:bg-gray-50",
       danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-400",
