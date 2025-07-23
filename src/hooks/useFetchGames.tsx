@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useGames } from "@/contexts/GamesContext";
 
 interface UseFetchGamesOptions {
@@ -13,17 +13,22 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
   const { initialLoad = true, initialGenre = "", initialPage = 1 } = options;
   const { state, fetchGames, setGenre, loadMore, resetGames } = useGames();
 
-  // Initial load
-  useEffect(() => {
-    if (initialLoad) {
-      fetchGames({
-        genre: initialGenre || undefined,
-        page: initialPage,
-      });
-    }
-  }, [initialLoad, initialGenre, initialPage, fetchGames]);
+  // needed to create a reference to fetching the first time
+  // to avoid calling the api multiple times in the first render
+  // remove it if you see it harmless
+  const didFetchOnce = useRef(false);
 
-  // prevent unnecessary re-calculations
+  useEffect(() => {
+  if (initialLoad && !didFetchOnce.current) {
+    didFetchOnce.current = true;
+
+    fetchGames({
+      genre: initialGenre || undefined,
+      page: initialPage,
+    });
+  }
+}, [initialLoad, initialGenre, initialPage, fetchGames]);
+
   const computedValues = useMemo(
     () => ({
       hasMorePages: state.currentPage < state.totalPages,
@@ -32,7 +37,6 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
     [state.currentPage, state.totalPages, state.games.length, state.loading]
   );
 
-  // prevent unnecessary re-creations
   const helpers = useMemo(
     () => ({
       changeGenre: (genre: string) => {
@@ -61,21 +65,24 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
     ]
   );
 
-  // prevent unnecessary re-renders
   return useMemo(
     () => ({
+      // State
       games: state.games,
       loading: state.loading,
       loadingMore: state.loadingMore,
       error: state.error,
-      selectedGenre: state.selectedGenre,
+      selectedGenre: initialGenre || state.selectedGenre, // Use URL genre if available
       currentPage: state.currentPage,
       totalPages: state.totalPages,
       availableFilters: state.availableFilters,
+
+      // Actions
       changeGenre: helpers.changeGenre,
       loadMoreGames: helpers.loadMoreGames,
       refetch: helpers.refetch,
       resetGames,
+
       // Computed values
       hasMorePages: computedValues.hasMorePages,
       isEmpty: computedValues.isEmpty,
@@ -85,6 +92,7 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
       state.loading,
       state.loadingMore,
       state.error,
+      initialGenre,
       state.selectedGenre,
       state.currentPage,
       state.totalPages,
