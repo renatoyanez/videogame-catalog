@@ -19,15 +19,15 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
   const didFetchOnce = useRef(false);
 
   useEffect(() => {
-  if (initialLoad && !didFetchOnce.current) {
-    didFetchOnce.current = true;
+    if (initialLoad && !didFetchOnce.current) {
+      didFetchOnce.current = true;
 
-    fetchGames({
-      genre: initialGenre || undefined,
-      page: initialPage,
-    });
-  }
-}, [initialLoad, initialGenre, initialPage, fetchGames]);
+      fetchGames({
+        genre: initialGenre || undefined,
+        page: initialPage,
+      });
+    }
+  }, [initialLoad, initialGenre, initialPage, fetchGames]);
 
   const computedValues = useMemo(
     () => ({
@@ -67,7 +67,6 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
 
   return useMemo(
     () => ({
-      // State
       games: state.games,
       loading: state.loading,
       loadingMore: state.loadingMore,
@@ -76,14 +75,10 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
       currentPage: state.currentPage,
       totalPages: state.totalPages,
       availableFilters: state.availableFilters,
-
-      // Actions
       changeGenre: helpers.changeGenre,
       loadMoreGames: helpers.loadMoreGames,
       refetch: helpers.refetch,
       resetGames,
-
-      // Computed values
       hasMorePages: computedValues.hasMorePages,
       isEmpty: computedValues.isEmpty,
     }),

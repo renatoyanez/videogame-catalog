@@ -31,6 +31,14 @@ const GameGrid: React.FC = () => {
     }
   }, [currentPage, totalPages, loadingMore, loadMoreGames]);
 
+  if (loading) {
+    return (
+      <div className="desktop:my-[48px] mobile:my-[32px]">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className="desktop:my-[48px] mobile:my-[32px]">
       <div className="flex flex-wrap justify-between gap-y-6">
