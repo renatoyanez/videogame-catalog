@@ -2,17 +2,23 @@ import type { Game, ApiParams, ApiResponse } from "../types/game";
 import { createApiError, isApiError } from "../lib/errors";
 import { availableFilters } from "../utils/endpoint";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
+export const getBaseUrl = () => {
+  if (typeof window !== "undefined") return ""; // relative path
+  if (process.env.NEXT_PUBLIC_API_BASE_URL)
+    return process.env.NEXT_PUBLIC_API_BASE_URL; // SSR on Vercel
+  return ""; // local SSR dev
+};
 
 const request = async (
   endpoint: string,
   options?: RequestInit
 ): Promise<any> => {
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    const baseUrl = getBaseUrl();
+    const response = await fetch(`${baseUrl}${endpoint}`, {
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
         ...options?.headers,
       },
       ...options,

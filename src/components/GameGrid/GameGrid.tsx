@@ -30,6 +30,7 @@ const GameGrid: React.FC = () => {
       await loadMoreGames();
     }
   }, [currentPage, totalPages, loadingMore, loadMoreGames]);
+
   return (
     <div className="desktop:my-[48px] mobile:my-[32px]">
       <div className="flex flex-wrap justify-between gap-y-6">
@@ -38,7 +39,6 @@ const GameGrid: React.FC = () => {
         ))}
       </div>
 
-      {/* See More Button */}
       {hasMorePages && games.length > 0 && (
         <div className="flex mt-8">
           <Button
