@@ -9,7 +9,7 @@ const mockGame: Game = {
   price: 29.99,
   image: "/test.jpg",
   genre: "Action",
-  description: "This is a test game with a long description that should be truncated when displayed.",
+  description: "This is a test game with a long description that should be truncated when rendered.",
   isNew: true,
 }
 
