@@ -1,15 +1,14 @@
 export const gameCardClasses = {
   container:
-    "block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer",
-  imageContainer: "relative aspect-video overflow-hidden",
-  image: "w-full h-full object-cover transition-transform duration-300 hover:scale-105",
-  content: "p-4",
-  title: "text-lg font-semibold text-gray-900 mb-2 line-clamp-2",
-  genre: "text-sm text-gray-500 mb-2",
-  price: "text-xl font-bold text-gray-900 mb-3",
+    "w-full max-w-[380px] h-auto max-h-[436px] xs:w-[327px] xs:h-[436px] rounded-2xl border border-gray-400 opacity-100 p-[24px] bg-white hover:shadow-lg transition-shadow duration-300",
+  imageWrapper:
+    "relative w-full h-[240px] mb-5 overflow-hidden rounded-t-[16px]",
+  image: "object-cover",
+  contentWrapper: "px-2",
+  genreText: "text-xs text-gray-500 uppercase tracking-wide mb-1",
+  titlePriceRow: "flex justify-between items-start mb-5",
+  title: "text-base font-medium text-gray-900 flex-1 pr-2",
+  price: "text-base font-semibold text-gray-900 whitespace-nowrap",
   button:
-    "w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors duration-200 font-medium",
-  buttonRemove:
-    "w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors duration-200 font-medium",
-  newBadge: "absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium",
-}
+    "w-full py-3 px-4 border border-gray-400 rounded-lg text-sm font-medium text-gray-900 bg-white hover:bg-gray-50 transition-colors duration-200",
+};

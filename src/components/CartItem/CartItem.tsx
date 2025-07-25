@@ -34,7 +34,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         />
         {item.isNew && (
           <div className="absolute -top-1 -left-1">
-            <Badge variant="success" size="sm">
+            <Badge>
               New
             </Badge>
           </div>
