@@ -3,10 +3,10 @@ import { createApiError, isApiError } from "../lib/errors";
 import { availableFilters } from "../utils/endpoint";
 
 export const getBaseUrl = () => {
-  if (typeof window !== "undefined") return ""; // relative path
+  if (typeof window !== "undefined") return "";
   if (process.env.NEXT_PUBLIC_API_BASE_URL)
-    return process.env.NEXT_PUBLIC_API_BASE_URL; // SSR on Vercel
-  return ""; // local SSR dev
+    return process.env.NEXT_PUBLIC_API_BASE_URL;
+  return "";
 };
 
 const request = async (
@@ -76,13 +76,11 @@ export const getGameById = async (id: number): Promise<Game | null> => {
 };
 
 export const getAvailableGenres = (): string[] => {
-  // Nota para evaluador:
-  // Esto luce como sobrecomplicacion, pero se agrega para centralizar
-  // las acciones de la api.
+  // this looks unnecessary, but it's added to centralize
+  // the simulated API response
   return availableFilters;
 };
 
-// Export as object for backward compatibility if needed
 export const apiService = {
   getGames,
   getGameById,

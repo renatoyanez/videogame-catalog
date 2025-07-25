@@ -1,40 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { useGames } from "@/contexts/GamesContext";
 
-interface UseFetchGamesOptions {
-  initialLoad?: boolean;
-  initialGenre?: string;
-  initialPage?: number;
-}
-
-export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
-  const { initialLoad = true, initialGenre = "", initialPage = 1 } = options;
+export const useFetchGames = () => {
   const { state, fetchGames, setGenre, loadMore, resetGames } = useGames();
-
-  // needed to create a reference to fetching the first time
-  // to avoid calling the api multiple times in the first render
-  // remove it if you see it harmless
-  const didFetchOnce = useRef(false);
-
-  useEffect(() => {
-    if (initialLoad && !didFetchOnce.current) {
-      didFetchOnce.current = true;
-
-      fetchGames({
-        genre: initialGenre || undefined,
-        page: initialPage,
-      });
-    }
-  }, [initialLoad, initialGenre, initialPage, fetchGames]);
 
   const computedValues = useMemo(
     () => ({
       hasMorePages: state.currentPage < state.totalPages,
       isEmpty: state.games.length === 0 && !state.loading,
     }),
-    [state.currentPage, state.totalPages, state.games.length, state.loading]
+    [state]
   );
 
   const helpers = useMemo(
@@ -54,50 +31,23 @@ export const useFetchGames = (options: UseFetchGamesOptions = {}) => {
         });
       },
     }),
-    [
-      setGenre,
-      state.currentPage,
-      state.totalPages,
-      state.loadingMore,
-      state.selectedGenre,
-      loadMore,
-      fetchGames,
-    ]
+    [setGenre, state, loadMore, fetchGames]
   );
 
-  return useMemo(
-    () => ({
-      games: state.games,
-      loading: state.loading,
-      loadingMore: state.loadingMore,
-      error: state.error,
-      selectedGenre: initialGenre || state.selectedGenre, // Use URL genre if available
-      currentPage: state.currentPage,
-      totalPages: state.totalPages,
-      availableFilters: state.availableFilters,
-      changeGenre: helpers.changeGenre,
-      loadMoreGames: helpers.loadMoreGames,
-      refetch: helpers.refetch,
-      resetGames,
-      hasMorePages: computedValues.hasMorePages,
-      isEmpty: computedValues.isEmpty,
-    }),
-    [
-      state.games,
-      state.loading,
-      state.loadingMore,
-      state.error,
-      initialGenre,
-      state.selectedGenre,
-      state.currentPage,
-      state.totalPages,
-      state.availableFilters,
-      helpers.changeGenre,
-      helpers.loadMoreGames,
-      helpers.refetch,
-      resetGames,
-      computedValues.hasMorePages,
-      computedValues.isEmpty,
-    ]
-  );
+  return {
+    games: state.games,
+    loading: state.loading,
+    loadingMore: state.loadingMore,
+    error: state.error,
+    selectedGenre: state.selectedGenre,
+    currentPage: state.currentPage,
+    totalPages: state.totalPages,
+    availableFilters: state.availableFilters,
+    changeGenre: helpers.changeGenre,
+    loadMoreGames: helpers.loadMoreGames,
+    refetch: helpers.refetch,
+    resetGames,
+    hasMorePages: computedValues.hasMorePages,
+    isEmpty: computedValues.isEmpty,
+  };
 };

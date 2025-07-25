@@ -1,14 +1,14 @@
 import { FC } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { footerClasses } from "./classes";
+import { CustomLink } from "../CustomLink/CustomLink";
 
 const Footer: FC = () => {
   return (
     <footer className={footerClasses.container}>
       <div className={footerClasses.wrapper}>
         <div className={footerClasses.content}>
-          <Link href="/" className={footerClasses.logoContainer}>
+          <CustomLink href="/" className={footerClasses.logoContainer}>
             <Image
               src="/apply-digital-logo.svg"
               alt="Apply Digital"
@@ -16,7 +16,7 @@ const Footer: FC = () => {
               height={40}
               className={footerClasses.logo}
             />
-          </Link>
+          </CustomLink>
         </div>
       </div>
     </footer>

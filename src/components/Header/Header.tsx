@@ -4,6 +4,7 @@ import type React from "react";
 import Link from "next/link";
 import Layout from "@/components/Layout/Layout";
 import Typography from "@/components/Typography/Typography";
+import { CustomLink } from "@/components/CustomLink/CustomLink";
 import { useCart } from "@/contexts/CartContext";
 import { headerClasses } from "./classes";
 import Image from "next/image";
@@ -15,13 +16,13 @@ const Header: React.FC = () => {
     <header className={headerClasses.container}>
       <Layout type="header">
         <div className={headerClasses.content}>
-          <Link href="/" className={headerClasses.title}>
+          <CustomLink href="/" className={headerClasses.title}>
             <Typography variant="h2" className={headerClasses.title}>
               GamerShop
             </Typography>
-          </Link>
+          </CustomLink>
 
-          <Link href="/cart" className={headerClasses.cartButton}>
+          <CustomLink href="/cart" className={headerClasses.cartButton}>
             <Image
               src="/cart-icon.svg"
               alt="Cart Icon"
@@ -31,7 +32,7 @@ const Header: React.FC = () => {
             {state.itemCount > 0 && (
               <span className={headerClasses.cartBadge}>{state.itemCount}</span>
             )}
-          </Link>
+          </CustomLink>
         </div>
       </Layout>
     </header>

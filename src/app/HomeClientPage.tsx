@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Select from "@/components/Select/Select";
 import Typography from "@/components/Typography/Typography";
@@ -16,8 +16,13 @@ const HomeClientPage = () => {
 
   const selectedGenre = state.selectedGenre;
 
-  // initialize from URL (only one time on mount)
+  // add guard ref to prevent double fetch. Initialize from URL (only one time on mount)
+  const hasInitialized = useRef(false);
+
   useEffect(() => {
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+
     const genre = searchParams.get("genre") || "";
     initializeFromUrl({ genre, page: 1 });
   }, [searchParams, initializeFromUrl]);
@@ -25,15 +30,14 @@ const HomeClientPage = () => {
   const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newGenre = e.target.value;
 
-    // Update URL
+    // update URL
     const params = new URLSearchParams(searchParams);
     if (newGenre) params.set("genre", newGenre);
     else params.delete("genre");
 
     router.push(`/?${params.toString()}`);
 
-    // trigger fetch
-    setGenre(newGenre); // this will internally call fetchGames with new genre
+    setGenre(newGenre);
   };
 
   return (
@@ -45,7 +49,7 @@ const HomeClientPage = () => {
       </div>
       <div className="desktop:pb-12 mobile:pb-8 flex justify-end border-b border-gray-200 last:border-b-0">
         <Select
-          value={selectedGenre}
+          value={selectedGenre || ""}
           onChange={handleGenreChange}
           options={availableGenres}
         />

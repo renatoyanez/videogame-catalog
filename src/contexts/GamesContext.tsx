@@ -30,6 +30,7 @@ interface GamesContextType {
   loadMore: () => Promise<void>;
   resetGames: () => void;
   initializeFromUrl: (params: ApiParams) => void;
+  resetFilters: () => void;
 }
 
 const GamesContext = createContext<GamesContextType | undefined>(undefined);
@@ -59,7 +60,7 @@ export const GamesProvider: React.FC<{ children: ReactNode }> = ({
         }
         setError(null);
 
-        // Update selected genre to match the params
+        // update selected genre to match the params
         if (params.genre !== undefined) {
           setSelectedGenre(params.genre || "");
         }
@@ -85,6 +86,12 @@ export const GamesProvider: React.FC<{ children: ReactNode }> = ({
     },
     []
   );
+
+  const resetFilters = useCallback(() => {
+    setSelectedGenre("");
+    setCurrentPage(1);
+    fetchGames({ page: 1 });
+  }, [fetchGames]);
 
   const initializeFromUrl = useCallback(
     (params: ApiParams) => {
@@ -152,8 +159,17 @@ export const GamesProvider: React.FC<{ children: ReactNode }> = ({
       loadMore,
       resetGames,
       initializeFromUrl,
+      resetFilters,
     }),
-    [state, fetchGames, setGenre, loadMore, resetGames, initializeFromUrl]
+    [
+      state,
+      fetchGames,
+      setGenre,
+      loadMore,
+      resetGames,
+      initializeFromUrl,
+      resetFilters,
+    ]
   );
 
   return (
