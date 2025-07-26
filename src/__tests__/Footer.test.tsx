@@ -4,17 +4,9 @@ import Footer from "@/components/Footer/Footer";
 // Mock next/image
 jest.mock("next/image", () => ({
   __esModule: true,
+  /* eslint-disable @next/next/no-img-element */
   default: (props: any) => <img {...props} alt={props.alt || "mocked image"} />,
 }));
-
-// Mock next/link
-// jest.mock("next/link", () => {
-//   return ({ href, children, ...rest }: any) => (
-//     <a href={href} {...rest}>
-//       {children}
-//     </a>
-//   );
-// });
 
 describe("Footer", () => {
   it("renders the logo with correct alt text", () => {

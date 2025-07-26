@@ -1,8 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Layout from "@/components/Layout/Layout";
-import { layoutClasses } from "../components/Layout/classes";
 
-// Mock the layoutClasses import
 jest.mock("../components/Layout/classes", () => ({
   layoutClasses: {
     container: {
