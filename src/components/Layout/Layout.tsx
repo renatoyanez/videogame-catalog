@@ -1,7 +1,6 @@
 "use client";
 
 import { ReactNode, FC } from "react";
-import Link from "next/link";
 import { layoutClasses } from "./classes";
 
 interface LayoutProps {

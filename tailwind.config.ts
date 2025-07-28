@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        mobile: "375px",
+        desktop: "1536px",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -21,10 +25,6 @@ const config: Config = {
         gray: {
           medium: "#3B3B3B",
         },
-      },
-      screens: {
-        mobile: "375px",
-        desktop: "1536px",
       },
       fontSize: {
         "xl": "24px",
